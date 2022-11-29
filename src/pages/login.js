@@ -10,9 +10,11 @@ import { Facebook as FacebookIcon } from "../icons/facebook";
 import { Google as GoogleIcon } from "../icons/google";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../slices/authSlice";
+import { useRouter } from "next/router";
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
   const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
@@ -27,12 +29,15 @@ const Login = () => {
       console.log(formik.values);
       dispatch(login({ ...formik.values }))
         .unwrap()
-        .then(() => {
-          console.log(formik.values);
-          navigate("/");
-          window.location.reload();
+        .then((data) => {
+          console.log("ddddddd");
+          console.log("data :>> ", data);
+          // navigate("/");
+          router.push("/");
+          // window.location.reload();
         })
         .catch(() => {
+          console.log("ssssss");
           setLoading(false);
         });
       console.log(formik.values);
@@ -134,7 +139,7 @@ const Login = () => {
             <Box sx={{ py: 2 }}>
               <Button
                 color="primary"
-                disabled={formik.isSubmitting}
+                // disabled={formik.isSubmitting}
                 fullWidth
                 size="large"
                 type="submit"
